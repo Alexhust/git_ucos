@@ -23,4 +23,4 @@
 #*.hex
 
 #Only backup the source directory
-!(k60/sources/)
+!(.k60/sources/)
