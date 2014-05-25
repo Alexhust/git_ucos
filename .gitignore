@@ -23,4 +23,10 @@
 #*.hex
 
 #Only backup the source directory
-!(.k60/sources/)
+k60/Debug/
+k60/K60_alex.dep
+k60/K60_alex.ewd
+k60/K60_alex.ewp
+k60/K60_alex.eww
+k60/settings/
+k60/tags
