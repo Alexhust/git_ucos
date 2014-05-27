@@ -47,7 +47,9 @@
 */
 
 #define  APP_CFG_TASK_START_PRIO                    2u
-#define  APP_CFG_TASK1_PRIO                         2u
+#define  APP_CFG_TASK1_PRIO                         3u
+#define  APP_CFG_TASK2_PRIO                         4u
+#define  APP_CFG_TASK3_PRIO                         5u
 
 
 /*
@@ -58,6 +60,8 @@
 
 #define  APP_CFG_TASK_START_STK_SIZE                128u
 #define  APP_CFG_TASK_1_STK_SIZE                    128u
+#define  APP_CFG_TASK_2_STK_SIZE                    128u
+#define  APP_CFG_TASK_3_STK_SIZE                    128u
 
 
 

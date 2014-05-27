@@ -51,10 +51,14 @@
 */
 static  OS_TCB        App_TaskStartTCB;
 static  OS_TCB        App_Task1_TCB;
+static  OS_TCB        App_Task2_TCB;
+static  OS_TCB        App_Task3_TCB;
 
 
 static  CPU_STK_SIZE  App_TaskStartStk[APP_CFG_TASK_START_STK_SIZE];
 static  CPU_STK_SIZE  App_Task1Stk[APP_CFG_TASK_1_STK_SIZE];
+static  CPU_STK_SIZE  App_Task2Stk[APP_CFG_TASK_2_STK_SIZE];
+static  CPU_STK_SIZE  App_Task3Stk[APP_CFG_TASK_3_STK_SIZE];
 
 
 /*
@@ -68,6 +72,8 @@ static  CPU_STK_SIZE  App_Task1Stk[APP_CFG_TASK_1_STK_SIZE];
 
 static  void  App_TaskStart          (void       *p_arg);
 static  void  App_Task1              (void       *p_arg);
+static  void  App_Task2              (void       *p_arg);
+static  void  App_Task3              (void       *p_arg);
 
 /*
 *********************************************************************************************************
@@ -173,7 +179,34 @@ static  void  App_TaskStart (void *p_arg)
 				 (void       *) 0,
 				 (OS_OPT      )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
 				 (OS_ERR     *)&os_err);
+    
+	OSTaskCreate((OS_TCB     *)&App_Task2_TCB,
+				 (CPU_CHAR   *)"App Task2",
+				 (OS_TASK_PTR ) App_Task2,
+				 (void       *) 0,
+				 (OS_PRIO     ) APP_CFG_TASK2_PRIO,
+				 (CPU_STK    *)&App_Task2Stk[0],
+				 (CPU_STK     )(APP_CFG_TASK_2_STK_SIZE / 10u),
+				 (CPU_STK_SIZE) APP_CFG_TASK_2_STK_SIZE,
+				 (OS_MSG_QTY  ) 0,
+				 (OS_TICK     ) 0,
+				 (void       *) 0,
+				 (OS_OPT      )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
+				 (OS_ERR     *)&os_err);
 
+    OSTaskCreate((OS_TCB     *)&App_Task3_TCB,
+				 (CPU_CHAR   *)"App Task3",
+				 (OS_TASK_PTR ) App_Task3,
+				 (void       *) 0,
+				 (OS_PRIO     ) APP_CFG_TASK3_PRIO,
+				 (CPU_STK    *)&App_Task3Stk[0],
+				 (CPU_STK     )(APP_CFG_TASK_3_STK_SIZE / 10u),
+				 (CPU_STK_SIZE) APP_CFG_TASK_3_STK_SIZE,
+				 (OS_MSG_QTY  ) 0,
+				 (OS_TICK     ) 0,
+				 (void       *) 0,
+				 (OS_OPT      )(OS_OPT_TASK_STK_CHK | OS_OPT_TASK_STK_CLR),
+				 (OS_ERR     *)&os_err);
    
 #if (OS_TASK_STAT_EN > 0)
     OSStatInit();                                               /* Determine CPU capacity                                   */
@@ -190,7 +223,7 @@ static  void  App_TaskStart (void *p_arg)
 
     while (DEF_TRUE) {                                          /* Task body, always written as an infinite loop.           */
         BSP_LED_Toggle(BSP_LED_BLUE);
-        OSTimeDly((OS_TICK   )500,
+        OSTimeDly((OS_TICK   )4000,
 				  (OS_OPT    )OS_OPT_TIME_DLY,
 				  (OS_ERR   *)&os_err);
     }
@@ -207,6 +240,40 @@ static void App_Task1 (void *p_arg)
 	while(DEF_TRUE)
 	{
         BSP_LED_Toggle(BSP_LED_GREEN);
+		OSTimeDly((OS_TICK   )2000,
+				  (OS_OPT    )OS_OPT_TIME_DLY,
+				  (OS_ERR   *)&err);
+	}
+}
+
+static void App_Task2 (void *p_arg)
+{
+	OS_ERR err;
+    CPU_TS ts;
+
+	(void)p_arg;
+	p_arg = p_arg;
+    BSP_LED_Off(BSP_LED_ALL);
+	while(DEF_TRUE)
+	{
+        BSP_LED_Toggle(BSP_LED_YELLOW);
+		OSTimeDly((OS_TICK   )1000,
+				  (OS_OPT    )OS_OPT_TIME_DLY,
+				  (OS_ERR   *)&err);
+	}
+}
+
+static void App_Task3 (void *p_arg)
+{
+	OS_ERR err;
+    CPU_TS ts;
+
+	(void)p_arg;
+	p_arg = p_arg;
+    BSP_LED_Off(BSP_LED_ALL);
+	while(DEF_TRUE)
+	{
+        BSP_LED_Toggle(BSP_LED_ORANGE);
 		OSTimeDly((OS_TICK   )500,
 				  (OS_OPT    )OS_OPT_TIME_DLY,
 				  (OS_ERR   *)&err);
